@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            transition: all 0.1s;
+            background-color: rgb(128, 64, 191,0.8);
+        }
+        header{
+            color: white;
+            text-align: center;
+            font-size: 3em;
+            margin: 15px;
+        }
+        header>button{
+            border-radius: 15px;
+            padding: 5px;
+         
+           border: 1px solid red;
+           color: white;
+        }
+        #Instructions {
+            color : white;
+            text-align: center;
+           
+        }
+        .board{
+            height: 520px;
+            width: 600px;
+            background-color: rgb(128, 64, 191,1);
+             border-radius : 5px;
+            margin: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            flex-direction: column;
+            box-shadow: 2px;
+            color : purple;
+            border: solid 1px white ;
+        }
+        .cell{
+            
+            background-color: pink;
+            margin: 10px;
+        }
+        #cell_row1{
+            display: flex;
+            flex-direction: row;
+           text-align: center;
+            justify-content: space-around;
+        }
+        #cell_row2{
+            display: flex;
+            flex-direction: row;
+           text-align: center;
+            justify-content: space-around;
+        }
+        #cell_row3{
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            justify-content: space-around;
+        }
+        #cell_row4{
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+    
+            justify-content: space-around;
+        }
+        #cell_row0{
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            justify-content: space-around;
+        }
+        .number .timer{
+            position : absolute;
+            top : 10px;
+            left : 10px ;
+        }
+        .buttons{
+            position:absolute;
+            top : 20%;
+            left : 20%;
+            display: flex;
+            flex-direction: column;
+        }
+        .buttons>button {
+            margin : 5px;
+            padding: 5px;;
+            background-color: rgb(128, 64, 191,1);
+            color: white;
+            border : solid 1px white;
+            box-shadow: 3px black;;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .head{
+            font-size: 4em;
+            color: white;
+            margin-left : 44%;
+           
+        }
+        .type {
+            display: flex;
+            flex-direction: column;
+            width : 10vw;
+            position: absolute;
+           top : 5px;
+           right :27.5%;
+
+        }
+        .type>button{
+            border-radius: 3px;
+            margin : 5px;
+            padding: 5px;;
+            background-color: rgb(128, 64, 191,1);
+            color: white;
+            border : solid 1px white;
+            box-shadow: 3px black;;
+            cursor: pointer; 
+              
+        }
+        button:hover {
+            background-color: purple;
+        }
+        .mm{
+            position:absolute ;background-color: rgb(128, 64, 191,1);font-size: 1.5em;color: aliceblue;border-radius: 5px;left : 28%;;top:15px;padding: 3px;border : 1px white solid;
+        }
+        @media (max-width : 760px) {
+            .type{
+                position: absolute;
+            right : 14%;
+            }
+            .type>button{
+                width : 15vw;
+            }
+            .mm{
+                position: absolute;
+                left : 9%;
+                width : 15vw;
+                top : 2%;
+            
+            }
+            .head{
+                margin-left: 34%;
+            }
+            .buttons{
+                left: 0%;
+                top : 1%;
+            }
+        }
+            </style>
+</head>
+<body>
+ 
+        <div class="head">
+        TILES
+    </div>
+        <div class="buttons">
+        <button onclick="create(3, 3)" id = "btn1">
+            (3 x 3)
+        </button>
+        <button onclick="create(4,4)"id ="btn2">
+            (4 x 4)
+        </button>
+        <button onclick="create(5,5)"id="btn3">
+        (5 x 5)
+        </button>
+    </div>
+    <div class="type">
+        <button onClick = "shuffle()" id = "btn4" >
+            Start the GAME 
+            <script>
+                document.getElementById('btn4').disabled=true;
+            </script>
+        </button>
+        <button onclick="refreshPage()">
+            Reset
+        </button>
+    </div>
+    
+    <div class="mm" style = " ">
+        MOVES :-
+        <div class="number" id = "number">
+</div>
+<div id="timer">00:00</div>
+    </div>
+    <div class="board" id="board">
+        <div id="Instructions">
+      <span style="font-size: 5em;">PLAY</span><br>
+        <span style="font-size: 1.5em;">(Please choose a grid from 3 x 3 , 4 x 4 ,5 x 5 )</span>
+    </div>
+    <script>
+        function refreshPage() {
+      location.reload();
+    }
+    let moves = 0;
+  let row = -1;
+        let col = -1;
+
+        const create = (n, m) => {
+            row = n;
+            col = m;
+      let inst =  document.getElementById('Instructions');
+      inst.style.display ="none";
+            const board = document.getElementById('board');
+            for (let i = 0; i < n; i++) {
+                const btn1 = document.getElementById('btn1');
+                const btn2 = document.getElementById('btn2');
+                
+                const btn3 = document.getElementById('btn3');
+                
+                const btn4 = document.getElementById('btn4');
+                btn1.disabled = true;
+                btn2.disabled = true; 
+                btn3.disabled = true;
+                btn4.disabled = false;
+
+                
+            
+                const cell_row = document.createElement('div');
+                cell_row.setAttribute('id', 'cell_row' + i);
+                board.appendChild(cell_row);
+                for (let j = 0; j < m; j++) {
+                    const cell = document.createElement('div');
+                    cell.setAttribute('id', 'cell' + i + j);
+                
+                    cell_row.appendChild(cell);
+                    cell.addEventListener('click',()=>checks('cell'+i+j,i,j));
+                }
+            }
+
+            for (let i = 0; i < n; i++) {
+                const cell_row = document.getElementById('cell_row' + i);
+                cell_row.style.width = '100%';
+                if (n == 3) {
+                    cell_row.style.height = '32%';
+                } else if (n == 4) {
+                    cell_row.style.height = '24%';
+                } else if (n == 5) {
+                    cell_row.style.height = '19%';
+                }
+            }
+
+            let count = 1;
+            for (let i = 0; i < n; i++) {
+                for (let j = 0; j < m; j++) {
+                    const cell = document.getElementById('cell' + i + j);
+                    cell.innerHTML = count;
+                    count++;
+                    cell.style.height = '100%';
+                    cell.style.backgroundColor = 'pink';
+                    cell.style.padding = 'auto';
+                    cell.style.borderRadius="3px";
+                    if (n == 3) {
+                        cell.style.width = '32%';
+                    } else if (n == 4) {
+                        cell.style.width = '24%';
+                    } else if (n == 5) {
+                        cell.style.width = '19%';
+                    }
+                    if (i == n - 1 && j == m - 1) {
+                        cell.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                        cell.innerHTML = '';
+                    }
+                }
+            }
+        }
+
+        const swapTiles = (cell1, cell2) => {
+            let c1 = document.getElementById(cell1);
+            let c2 = document.getElementById(cell2);
+            let temp = c1.innerHTML;
+            c1.innerHTML = c2.innerHTML;
+            c2.innerHTML = temp;
+            let temp1 = c1.style.backgroundColor;
+            c1.style.backgroundColor = c2.style.backgroundColor;
+            c2.style.backgroundColor = temp1;
+        }
+let game = false;
+        const shuffle = () => {
+            game = true;
+            btn4.disabled = true;
+            for (let i = 0; i < row; i++) {
+                for (let j = 0; j < col; j++) {
+                    let row2 = Math.floor(Math.random() * row);
+                    let col2 = Math.floor(Math.random() * col);
+                    swapTiles('cell' + i + j, 'cell' + row2 + col2);
+                }
+            }
+        }
+        const checks = (cel, rows, cols) => {
+            if(!game){
+                return ;
+            }
+    const c4 = document.getElementById(cel);
+    const totalRows = row;
+    const totalCols = col;
+
+    if (rows < totalRows - 1 && document.getElementById('cell' + (rows + 1) + cols).innerHTML == '') {
+        moves++;
+        swapTiles(cel, 'cell' + (rows + 1) + cols);
+        
+    } else if (rows > 0 && document.getElementById('cell' + (rows - 1) + cols).innerHTML=='') {
+        moves++;
+        swapTiles(cel, 'cell' + (rows - 1) + cols);
+       
+    } else if (cols < totalCols - 1 && document.getElementById('cell' + rows + (cols + 1)).innerHTML=='') {
+        moves++;
+        swapTiles(cel, 'cell' + rows + (cols + 1));
+        
+    } else if (cols > 0 && document.getElementById('cell' + rows + (cols - 1)).innerHTML == '') {
+        moves++;
+    
+        swapTiles(cel, 'cell' + rows + (cols - 1));
+     
+    }
+    let number = document.getElementById('number');
+number.innerHTML=moves;
+};
+const win=()=>{
+    let k =1;
+    for(let i =0;i<row;i++){
+     for(let j=0;j<col;j++){
+        if(document.getElementById('cell'+i+j).innerHTML==k){
+            k++;
+        }else{
+            return;
+        }
+     }
+    }
+   document.getElementById('Instructions').style.display="block";
+   document.getElementById('Instructions').innerHTML="congrats";
+
+}
+
+
+
+    </script>
+</body>
+</html>
