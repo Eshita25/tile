@@ -42,33 +42,41 @@
             border: solid 1px white ;
         }
         .cell{
-            
+            box-sizing: border-box;
+        
             background-color: pink;
-            margin: 10px;
+            
+            text-align: center;
         }
         #cell_row1{
             display: flex;
             flex-direction: row;
            text-align: center;
             justify-content: space-around;
+            font-size: 3em;
+
         }
         #cell_row2{
             display: flex;
             flex-direction: row;
            text-align: center;
             justify-content: space-around;
+            font-size: 3em;
         }
         #cell_row3{
             display: flex;
             flex-direction: row;
             text-align: center;
             justify-content: space-around;
+            
+            font-size: 3em;
+
         }
         #cell_row4{
             display: flex;
             flex-direction: row;
             text-align: center;
-    
+            font-size: 3em;
             justify-content: space-around;
         }
         #cell_row0{
@@ -76,6 +84,8 @@
             flex-direction: row;
             text-align: center;
             justify-content: space-around;
+            padding-top:;
+            font-size: 3em;
         }
         .number .timer{
             position : absolute;
@@ -128,30 +138,37 @@
         button:hover {
             background-color: purple;
         }
+        button:active{
+            background-color: purple;
+        }
         .mm{
             position:absolute ;background-color: rgb(128, 64, 191,1);font-size: 1.5em;color: aliceblue;border-radius: 5px;left : 28%;;top:15px;padding: 3px;border : 1px white solid;
         }
         @media (max-width : 760px) {
-            .type{
-                position: absolute;
-            right : 14%;
-            }
+          
             .type>button{
                 width : 15vw;
             }
             .mm{
-                position: absolute;
-                left : 9%;
-                width : 15vw;
-                top : 2%;
-            
+                position: static;
+                width: 100%;
+                margin-bottom: 5px;
             }
-            .head{
-                margin-left: 34%;
+            .board{
+                width : 100vw;
+                height : 100vh;
+            }
+            .buttons  {
+position: absolute;
+                top : 10%;
+                left : 1%;
             }
             .buttons{
-                left: 0%;
-                top : 1%;
+                display: flex;
+                flex-direction: row;
+            }
+            .type {
+                right : 7%;
             }
         }
             </style>
@@ -188,7 +205,7 @@
         MOVES :-
         <div class="number" id = "number">
 </div>
-<div id="timer">00:00</div>
+
     </div>
     <div class="board" id="board">
         <div id="Instructions">
@@ -229,7 +246,7 @@
                 for (let j = 0; j < m; j++) {
                     const cell = document.createElement('div');
                     cell.setAttribute('id', 'cell' + i + j);
-                
+                    cell.style.textAlign="center";
                     cell_row.appendChild(cell);
                     cell.addEventListener('click',()=>checks('cell'+i+j,i,j));
                 }
@@ -253,16 +270,20 @@
                     const cell = document.getElementById('cell' + i + j);
                     cell.innerHTML = count;
                     count++;
+                   
                     cell.style.height = '100%';
                     cell.style.backgroundColor = 'pink';
-                    cell.style.padding = 'auto';
+                  cell.classList.add('cell');
                     cell.style.borderRadius="3px";
                     if (n == 3) {
                         cell.style.width = '32%';
+                        cell.style.paddingTop="63px";;
                     } else if (n == 4) {
                         cell.style.width = '24%';
+                        cell.style.paddingTop="38px";;
                     } else if (n == 5) {
                         cell.style.width = '19%';
+                        cell.style.paddingTop="19px";
                     }
                     if (i == n - 1 && j == m - 1) {
                         cell.style.backgroundColor = 'rgba(0,0,0,0.5)';
@@ -322,6 +343,7 @@ let game = false;
     }
     let number = document.getElementById('number');
 number.innerHTML=moves;
+win();
 };
 const win=()=>{
     let k =1;
@@ -336,11 +358,7 @@ const win=()=>{
     }
    document.getElementById('Instructions').style.display="block";
    document.getElementById('Instructions').innerHTML="congrats";
-
 }
-
-
-
-    </script>
+</script>
 </body>
 </html>
